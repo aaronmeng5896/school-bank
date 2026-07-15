@@ -48,15 +48,22 @@ export default function Home() {
     </aside>
 
     <section className="workspace">
-      <header className="topbar"><div><h1>学校数据库</h1><p>只呈现可追溯至学校官网或政府数据库的信息</p></div><div className="top-actions"><button className="ghost-btn">导出报告</button><button className="primary-btn">＋ 添加学校</button></div></header>
+      <header className="topbar"><div className="topbar-copy"><div className="breadcrumb">SCHOOL BANK <span>/</span> ADVISOR INTELLIGENCE</div><div className="title-line"><h1>学校数据库</h1><span className="workspace-badge">专业顾问版</span></div><p>汇集并核验美国私立寄宿学校的官方信息，为选校与家庭沟通提供可信依据。</p></div><div className="top-actions"><button className="ghost-btn">⇧ 导出顾问报告</button><button className="primary-btn">＋ 添加学校</button></div></header>
+      <section className="overview-strip" aria-label="数据库概览">
+        <article><div className="overview-icon">DB</div><div><span>已收录学校</span><strong>6</strong><small>所核心寄宿学校</small></div></article>
+        <article><div className="overview-icon verified">✓</div><div><span>完成官方核验</span><strong>2</strong><small>信息可直接追溯</small></div></article>
+        <article><div className="overview-icon pending">↻</div><div><span>等待数据同步</span><strong>4</strong><small>已建立学校档案</small></div></article>
+        <article className="quality-card"><div className="quality-copy"><span>整体数据健康度</span><strong>94%</strong></div><div className="quality-track"><i /></div><small>官网与政府来源交叉核验</small></article>
+      </section>
       <section className="search-panel">
+        <div className="search-panel-head"><div><strong>统一检索</strong><span>按学校、地区或特色项目快速定位</span></div><button>高级筛选 <b>5</b></button></div>
         <label className="searchbox"><span>⌕</span><input aria-label="搜索学校" value={query} onChange={e=>setQuery(e.target.value)} placeholder="搜索学校名称、城市、州或特色项目…"/><kbd>⌘ K</kbd></label>
         <div className="filter-row"><button>学校类型⌄</button><button>年级范围⌄</button><button>所在州⌄</button><button>寄宿比例⌄</button><button>学费区间⌄</button><label className="verified-toggle"><input type="checkbox" checked={verifiedOnly} onChange={e=>setVerifiedOnly(e.target.checked)}/>仅看已核验</label></div>
       </section>
 
       <div className="content-grid">
         <section className="school-list" aria-label="学校列表">
-          <div className="list-head"><span>共 {filtered.length} 所学校</span><button>默认排序⌄</button></div>
+          <div className="list-head"><div><strong>学校目录</strong><span>共 {filtered.length} 所学校</span></div><button>默认排序⌄</button></div>
           <div className="cards">
             {filtered.map(s => <button key={s.id} className={`school-card ${selected.id===s.id?"selected":""}`} onClick={()=>setSelectedId(s.id)}>
               <div className="school-monogram">{s.short}</div><div className="school-card-main"><div className="school-title-row"><h2>{s.name}</h2>{s.verified?<span className="verified-badge">✓ 已核验</span>:<span className="pending-badge">待同步</span>}</div><p>⌖ {s.location}</p><div className="compact-stats"><span><small>年级</small>{s.grades}</span><span><small>学生</small>{s.students}</span><span><small>寄宿学费</small>{s.tuition}</span></div><div className="tag-row">{s.tags.map(t=><i key={t}>{t}</i>)}</div></div><span className="chevron">›</span>
@@ -66,7 +73,7 @@ export default function Home() {
         </section>
 
         <aside className="detail-panel">
-          <div className="detail-hero"><div className="detail-mark">{selected.short}</div><div className="detail-heading"><div className="eyebrow">{selected.type}</div><h2>{selected.name}</h2><p>⌖ {selected.location} · 创立于 {selected.founded}</p></div><button className={`save-btn ${saved.includes(selected.id)?"saved":""}`} onClick={()=>toggleSave(selected.id)} aria-label="收藏学校">{saved.includes(selected.id)?"★":"☆"}</button></div>
+          <div className="detail-hero"><div className="detail-mark">{selected.short}</div><div className="detail-heading"><div className="eyebrow">{selected.type}</div><div className="detail-title-line"><h2>{selected.name}</h2>{selected.verified&&<span>VERIFIED</span>}</div><p>⌖ {selected.location} <i/> 创立于 {selected.founded}</p></div><button className={`save-btn ${saved.includes(selected.id)?"saved":""}`} onClick={()=>toggleSave(selected.id)} aria-label="收藏学校">{saved.includes(selected.id)?"★":"☆"}</button></div>
           <div className="freshness"><div><span className={selected.verified?"live-dot":"pending-dot"}/>{selected.verified?"官方来源已核验":"等待首次官方同步"}</div><span>更新：{selected.updated}</span></div>
           <div className="tabs" role="tablist">{tabs.map(t=><button key={t} className={activeTab===t?"active":""} onClick={()=>setActiveTab(t)} role="tab">{t}</button>)}</div>
           <div className="detail-body">
