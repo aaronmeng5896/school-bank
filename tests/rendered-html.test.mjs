@@ -32,18 +32,19 @@ test("server-renders the School Bank advisor dashboard", async () => {
   assert.match(html, /<title>School Bank｜美国私立寄宿学校官方数据库<\/title>/i);
   assert.match(html, /学校数据库/);
   assert.match(html, /ADVISOR INTELLIGENCE/);
-  assert.match(html, /整体数据健康度/);
+  assert.match(html, /参考目录覆盖/);
   assert.match(html, /Phillips Exeter Academy/);
   assert.match(html, /官方来源已核验/);
   assert.match(html, /查看学校官网/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
 
-test("keeps search, filtering, school selection, and tabs interactive", async () => {
-  const [page, layout, css] = await Promise.all([
+test("keeps 100-school search, filtering, selection, and tabs interactive", async () => {
+  const [page, layout, css, schoolData] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/schools.ts", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /useMemo, useState/);
@@ -52,6 +53,9 @@ test("keeps search, filtering, school selection, and tabs interactive", async ()
   assert.match(page, /setSelectedId/);
   assert.match(page, /setActiveTab/);
   assert.match(page, /toggleSave/);
+  assert.match(page, /schools\.length/);
+  assert.equal(schoolData.match(/\{ rank:/g)?.length, 94);
+  assert.equal(schoolData.match(/referenceRank: \d+/g)?.length, 6);
   assert.match(layout, /School Bank｜美国私立寄宿学校官方数据库/);
   assert.match(css, /\.overview-strip/);
   assert.match(css, /\.content-grid/);
