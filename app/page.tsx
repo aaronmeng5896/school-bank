@@ -1,22 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
-type School = {
-  id: string; name: string; short: string; location: string; grades: string;
-  type: string; founded: number; students: string; boarding: string;
-  tuition: string; aid: string; classSize: string; updated: string;
-  verified: boolean; tags: string[]; summary: string; sourceUrl: string; sourceName: string;
-};
-
-const schools: School[] = [
-  { id:"exeter", name:"Phillips Exeter Academy", short:"PEA", location:"Exeter, New Hampshire", grades:"9–12, PG", type:"男女合校 · 寄宿/走读", founded:1781, students:"1,099", boarding:"892", tuition:"$71,797", aid:"$29M", classSize:"12", updated:"2026-07-15", verified:true, tags:["Need-blind","Harkness","450+ 课程"], summary:"以 Harkness 圆桌教学闻名，强调学生主导的讨论式学习。2025–26 学年共有 1,099 名学生，其中 892 名寄宿生。", sourceUrl:"https://exeter.edu/about/", sourceName:"学校官网 · About Exeter" },
-  { id:"andover", name:"Phillips Academy Andover", short:"PA", location:"Andover, Massachusetts", grades:"9–12, PG", type:"男女合校 · 寄宿/走读", founded:1778, students:"1,150±", boarding:"待同步", tuition:"$79,800", aid:"$29.9M", classSize:"13", updated:"2026-07-15", verified:true, tags:["Need-blind","100% need met","18% 国际生"], summary:"实行 need-blind 录取并满足 100% 经核定的经济需求。学校提供 300 门课程，平均班级人数 13 人。", sourceUrl:"https://www.andover.edu/about", sourceName:"学校官网 · Fast Facts" },
-  { id:"choate", name:"Choate Rosemary Hall", short:"CRH", location:"Wallingford, Connecticut", grades:"9–12, PG", type:"男女合校 · 寄宿/走读", founded:1890, students:"待同步", boarding:"待同步", tuition:"待同步", aid:"待同步", classSize:"待同步", updated:"等待首次核验", verified:false, tags:["Signature Programs","跨学科","艺术"], summary:"已建立学校档案，等待采集器首次从学校官网与 NCES 官方数据源同步。", sourceUrl:"https://www.choate.edu/", sourceName:"学校官网" },
-  { id:"hotchkiss", name:"The Hotchkiss School", short:"THS", location:"Lakeville, Connecticut", grades:"9–12, PG", type:"男女合校 · 寄宿/走读", founded:1891, students:"待同步", boarding:"待同步", tuition:"待同步", aid:"待同步", classSize:"待同步", updated:"等待首次核验", verified:false, tags:["Lakeville","环境教育","艺术"], summary:"已建立学校档案，等待采集器首次从学校官网与 NCES 官方数据源同步。", sourceUrl:"https://www.hotchkiss.org/", sourceName:"学校官网" },
-  { id:"deerfield", name:"Deerfield Academy", short:"DA", location:"Deerfield, Massachusetts", grades:"9–12, PG", type:"男女合校 · 寄宿/走读", founded:1797, students:"待同步", boarding:"待同步", tuition:"待同步", aid:"待同步", classSize:"待同步", updated:"等待首次核验", verified:false, tags:["传统寄宿","社区文化","领导力"], summary:"已建立学校档案，等待采集器首次从学校官网与 NCES 官方数据源同步。", sourceUrl:"https://deerfield.edu/", sourceName:"学校官网" },
-  { id:"lawrenceville", name:"The Lawrenceville School", short:"LVS", location:"Lawrenceville, New Jersey", grades:"9–12, PG", type:"男女合校 · 寄宿/走读", founded:1810, students:"待同步", boarding:"待同步", tuition:"待同步", aid:"待同步", classSize:"待同步", updated:"等待首次核验", verified:false, tags:["House System","Harkness","新泽西"], summary:"已建立学校档案，等待采集器首次从学校官网与 NCES 官方数据源同步。", sourceUrl:"https://www.lawrenceville.org/", sourceName:"学校官网" },
-];
+import { schools } from "./schools";
 
 const tabs = ["核心数据", "申请信息", "学术课程", "校园生活", "官方来源"];
 
@@ -31,6 +16,9 @@ export default function Home() {
     return schools.filter(s => (!q || [s.name,s.location,s.short,...s.tags].join(" ").toLowerCase().includes(q)) && (!verifiedOnly || s.verified));
   }, [query, verifiedOnly]);
   const selected = schools.find(s => s.id === selectedId) ?? schools[0];
+  const verifiedCount = schools.filter(s => s.verified).length;
+  const pendingCount = schools.length - verifiedCount;
+  const verificationRate = Math.round((verifiedCount / schools.length) * 100);
   const toggleSave = (id:string) => setSaved(v => v.includes(id) ? v.filter(x => x !== id) : [...v,id]);
 
   return <main className="app-shell">
@@ -43,17 +31,17 @@ export default function Home() {
         <button><span>◫</span> 顾问报告</button>
       </nav>
       <div className="sidebar-section"><p>数据中心</p><button><span>↻</span> 数据更新</button><button><span>✓</span> 来源审核</button><button><span>⌁</span> 字段管理</button></div>
-      <div className="source-health"><div className="health-head"><span>数据源状态</span><b>94%</b></div><div className="health-bar"><i /></div><small>2 个来源已核验 · 4 个待同步</small></div>
+      <div className="source-health"><div className="health-head"><span>官方核验进度</span><b>{verificationRate}%</b></div><div className="health-bar"><i style={{width:`${verificationRate}%`}} /></div><small>{verifiedCount} 所已核验 · {pendingCount} 所待同步</small></div>
       <div className="profile"><div className="avatar">K</div><div><strong>Kelly 顾问</strong><span>专业版工作区</span></div><button aria-label="设置">•••</button></div>
     </aside>
 
     <section className="workspace">
       <header className="topbar"><div className="topbar-copy"><div className="breadcrumb">SCHOOL BANK <span>/</span> ADVISOR INTELLIGENCE</div><div className="title-line"><h1>学校数据库</h1><span className="workspace-badge">专业顾问版</span></div><p>汇集并核验美国私立寄宿学校的官方信息，为选校与家庭沟通提供可信依据。</p></div><div className="top-actions"><button className="ghost-btn">⇧ 导出顾问报告</button><button className="primary-btn">＋ 添加学校</button></div></header>
       <section className="overview-strip" aria-label="数据库概览">
-        <article><div className="overview-icon">DB</div><div><span>已收录学校</span><strong>6</strong><small>所核心寄宿学校</small></div></article>
-        <article><div className="overview-icon verified">✓</div><div><span>完成官方核验</span><strong>2</strong><small>信息可直接追溯</small></div></article>
-        <article><div className="overview-icon pending">↻</div><div><span>等待数据同步</span><strong>4</strong><small>已建立学校档案</small></div></article>
-        <article className="quality-card"><div className="quality-copy"><span>整体数据健康度</span><strong>94%</strong></div><div className="quality-track"><i /></div><small>官网与政府来源交叉核验</small></article>
+        <article><div className="overview-icon">DB</div><div><span>已收录学校</span><strong>{schools.length}</strong><small>所美国寄宿学校</small></div></article>
+        <article><div className="overview-icon verified">✓</div><div><span>完成官方核验</span><strong>{verifiedCount}</strong><small>信息可直接追溯</small></div></article>
+        <article><div className="overview-icon pending">↻</div><div><span>等待官网同步</span><strong>{pendingCount}</strong><small>已建立基础档案</small></div></article>
+        <article className="quality-card"><div className="quality-copy"><span>参考目录覆盖</span><strong>100%</strong></div><div className="quality-track"><i style={{width:"100%"}} /></div><small>参考 FindingSchool 2026 寄宿榜前 100</small></article>
       </section>
       <section className="search-panel">
         <div className="search-panel-head"><div><strong>统一检索</strong><span>按学校、地区或特色项目快速定位</span></div><button>高级筛选 <b>5</b></button></div>
@@ -63,7 +51,7 @@ export default function Home() {
 
       <div className="content-grid">
         <section className="school-list" aria-label="学校列表">
-          <div className="list-head"><div><strong>学校目录</strong><span>共 {filtered.length} 所学校</span></div><button>默认排序⌄</button></div>
+          <div className="list-head"><div><strong>学校目录</strong><span>显示 {filtered.length} / {schools.length} 所学校</span></div><button>参考序号排序⌄</button></div>
           <div className="cards">
             {filtered.map(s => <button key={s.id} className={`school-card ${selected.id===s.id?"selected":""}`} onClick={()=>setSelectedId(s.id)}>
               <div className="school-monogram">{s.short}</div><div className="school-card-main"><div className="school-title-row"><h2>{s.name}</h2>{s.verified?<span className="verified-badge">✓ 已核验</span>:<span className="pending-badge">待同步</span>}</div><p>⌖ {s.location}</p><div className="compact-stats"><span><small>年级</small>{s.grades}</span><span><small>学生</small>{s.students}</span><span><small>寄宿学费</small>{s.tuition}</span></div><div className="tag-row">{s.tags.map(t=><i key={t}>{t}</i>)}</div></div><span className="chevron">›</span>
@@ -73,17 +61,17 @@ export default function Home() {
         </section>
 
         <aside className="detail-panel">
-          <div className="detail-hero"><div className="detail-mark">{selected.short}</div><div className="detail-heading"><div className="eyebrow">{selected.type}</div><div className="detail-title-line"><h2>{selected.name}</h2>{selected.verified&&<span>VERIFIED</span>}</div><p>⌖ {selected.location} <i/> 创立于 {selected.founded}</p></div><button className={`save-btn ${saved.includes(selected.id)?"saved":""}`} onClick={()=>toggleSave(selected.id)} aria-label="收藏学校">{saved.includes(selected.id)?"★":"☆"}</button></div>
-          <div className="freshness"><div><span className={selected.verified?"live-dot":"pending-dot"}/>{selected.verified?"官方来源已核验":"等待首次官方同步"}</div><span>更新：{selected.updated}</span></div>
+          <div className="detail-hero"><div className="detail-mark">{selected.short}</div><div className="detail-heading"><div className="eyebrow">{selected.type} · 参考序号 #{selected.referenceRank}</div><div className="detail-title-line"><h2>{selected.name}</h2>{selected.verified&&<span>VERIFIED</span>}</div><p>⌖ {selected.location} <i/> {selected.founded?`创立于 ${selected.founded}`:"建校年份待官网核验"}</p></div><button className={`save-btn ${saved.includes(selected.id)?"saved":""}`} onClick={()=>toggleSave(selected.id)} aria-label="收藏学校">{saved.includes(selected.id)?"★":"☆"}</button></div>
+          <div className="freshness"><div><span className={selected.verified?"live-dot":"pending-dot"}/>{selected.verified?"官方来源已核验":"参考目录已收录 · 等待官网核验"}</div><span>状态：{selected.updated}</span></div>
           <div className="tabs" role="tablist">{tabs.map(t=><button key={t} className={activeTab===t?"active":""} onClick={()=>setActiveTab(t)} role="tab">{t}</button>)}</div>
           <div className="detail-body">
-            {activeTab==="核心数据" && <><p className="summary">{selected.summary}</p><div className="metric-grid"><article><span>学生总数</span><strong>{selected.students}</strong><small>当前公开学年</small></article><article><span>寄宿学生</span><strong>{selected.boarding}</strong><small>学校官方口径</small></article><article><span>寄宿学费</span><strong>{selected.tuition}</strong><small>2026–27 学年</small></article><article><span>平均班级</span><strong>{selected.classSize}</strong><small>名学生</small></article><article><span>年度助学金</span><strong>{selected.aid}</strong><small>总额</small></article><article><span>开设年级</span><strong>{selected.grades}</strong><small>官方项目范围</small></article></div><section className="advisor-note"><div className="note-icon">i</div><div><strong>顾问提示</strong><p>学费、申请截止日期与标化政策每年可能变化。发送给家庭前，请打开官方来源完成二次核验。</p></div></section></>}
+            {activeTab==="核心数据" && <><p className="summary">{selected.summary}</p><div className="metric-grid"><article><span>学生总数</span><strong>{selected.students}</strong><small>{selected.verified?"当前公开学年":"等待学校官网同步"}</small></article><article><span>寄宿学生</span><strong>{selected.boarding}</strong><small>{selected.verified?"学校官方口径":"等待学校官网同步"}</small></article><article><span>寄宿学费</span><strong>{selected.tuition}</strong><small>{selected.verified?"当前公开学年":"等待学校官网同步"}</small></article><article><span>平均班级</span><strong>{selected.classSize}</strong><small>{selected.verified?"名学生":"等待学校官网同步"}</small></article><article><span>年度助学金</span><strong>{selected.aid}</strong><small>{selected.verified?"总额":"等待学校官网同步"}</small></article><article><span>开设年级</span><strong>{selected.grades}</strong><small>{selected.verified?"官方项目范围":"目录参考字段"}</small></article></div><section className="advisor-note"><div className="note-icon">i</div><div><strong>顾问提示</strong><p>FindingSchool 仅用于建立学校范围索引，不作为官方事实字段来源。发送给家庭前，请等待学校官网或政府数据库完成核验。</p></div></section></>}
             {activeTab==="申请信息" && <div className="info-section"><h3>申请信息结构</h3><div className="timeline-row"><span>01</span><div><strong>申请轮次与截止日期</strong><p>按入学年份保存历史版本，变更时自动提示。</p></div></div><div className="timeline-row"><span>02</span><div><strong>考试与语言要求</strong><p>区分 required、recommended、optional 与 waived。</p></div></div><div className="timeline-row"><span>03</span><div><strong>面试、文书与推荐信</strong><p>直接链接学校官方申请说明与申请平台。</p></div></div></div>}
             {activeTab==="学术课程" && <div className="info-section"><h3>学术与课程</h3><p>课程目录、特色项目、教学方法、师生比、班级规模和毕业要求将在这里按学年归档，并保留原始 PDF 或官网链接。</p></div>}
             {activeTab==="校园生活" && <div className="info-section"><h3>寄宿与校园生活</h3><p>包含宿舍体系、周末安排、国际生支持、体育艺术、健康中心、机场交通与校园安全等顾问高频信息。</p></div>}
             {activeTab==="官方来源" && <div className="source-list"><a href={selected.sourceUrl} target="_blank" rel="noreferrer"><div className="source-icon">W</div><div><strong>{selected.sourceName}</strong><span>{selected.sourceUrl}</span></div><b>打开 ↗</b></a><a href="https://nces.ed.gov/surveys/pss/privateschoolsearch/" target="_blank" rel="noreferrer"><div className="source-icon gov">US</div><div><strong>NCES Private School Search</strong><span>美国教育部官方私校数据库</span></div><b>打开 ↗</b></a><div className="source-rule"><span>核验规则</span><p>学校官网优先；政府数据库用于身份、地址和规模交叉验证；第三方排名不作为事实字段来源。</p></div></div>}
           </div>
-          <footer className="detail-footer"><button className="ghost-btn">加入对比</button><a className="primary-btn" href={selected.sourceUrl} target="_blank" rel="noreferrer">查看学校官网 ↗</a></footer>
+          <footer className="detail-footer"><button className="ghost-btn">加入对比</button><a className="primary-btn" href={selected.sourceUrl} target="_blank" rel="noreferrer">{selected.sourceName.startsWith("学校官网")?"查看学校官网":"查看目录参考"} ↗</a></footer>
         </aside>
       </div>
     </section>
