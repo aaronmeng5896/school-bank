@@ -35,6 +35,11 @@ test("server-renders the School Bank advisor dashboard", async () => {
   assert.match(html, /参考目录覆盖/);
   assert.match(html, /Phillips Exeter Academy/);
   assert.match(html, /官方来源已核验/);
+  assert.match(html, /寄宿比例/);
+  assert.match(html, /国际生比例/);
+  assert.match(html, /课程数量/);
+  assert.match(html, /校园面积/);
+  assert.doesNotMatch(html, /年度助学金/);
   assert.match(html, /查看学校官网/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
@@ -52,6 +57,11 @@ test("keeps 100-school search, filtering, selection, and tabs interactive", asyn
   assert.match(page, /setVerifiedOnly/);
   assert.match(page, /setSelectedId/);
   assert.match(page, /setActiveTab/);
+  assert.match(page, /国际生特别要求/);
+  assert.match(page, /标准化考试/);
+  assert.match(page, /面试形式与要求/);
+  assert.match(schoolData, /Gateway to Prep Schools/);
+  assert.match(schoolData, /TOEFL iBT/);
   assert.match(page, /toggleSave/);
   assert.match(page, /schools\.length/);
   assert.equal(schoolData.match(/\{ rank:/g)?.length, 94);
