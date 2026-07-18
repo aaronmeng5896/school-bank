@@ -7,9 +7,11 @@ export type School = {
   type: string;
   founded?: number;
   students: string;
-  boarding: string;
+  boardingRate: string;
+  internationalRate: string;
+  courseCount: string;
+  campusArea: string;
   tuition: string;
-  aid: string;
   classSize: string;
   updated: string;
   verified: boolean;
@@ -18,6 +20,17 @@ export type School = {
   sourceUrl: string;
   sourceName: string;
   referenceRank: number;
+  application?: {
+    cycle: string;
+    deadline: string;
+    platform: string;
+    international: string;
+    testing: string;
+    interview: string;
+    materials: string[];
+    sourceUrl: string;
+    verifiedOn: string;
+  };
 };
 
 const FINDING_SCHOOL_REFERENCE =
@@ -32,12 +45,14 @@ const featuredSchools: School[] = [
     grades: "9–12, PG",
     type: "男女合校 · 寄宿/走读",
     founded: 1778,
-    students: "1,150±",
-    boarding: "待同步",
+    students: "1,169",
+    boardingRate: "75%",
+    internationalRate: "18%",
+    courseCount: "300+",
+    campusArea: "500 英亩",
     tuition: "$79,800",
-    aid: "$29.9M",
     classSize: "13",
-    updated: "2026-07-15",
+    updated: "2026-07-18",
     verified: true,
     tags: ["Need-blind", "100% need met", "FS 参考 #1"],
     summary:
@@ -45,6 +60,25 @@ const featuredSchools: School[] = [
     sourceUrl: "https://www.andover.edu/about",
     sourceName: "学校官网 · Fast Facts",
     referenceRank: 1,
+    application: {
+      cycle: "Fall 2027",
+      deadline: "2027年2月1日",
+      platform: "Gateway to Prep Schools + Andover Applicant Portal",
+      international:
+        "就读于美国以外、且学校并非全英文授课的国际申请人，需提交 TOEFL iBT、IELTS 或 Duolingo English Test。官网给出的录取生常见参考线为 TOEFL 100、IELTS 7.5、DET 135。国际生可申请助学金。",
+      testing:
+        "所有申请人必须提交 SSAT Upper Level、ISEE Upper Level、PSAT、SAT 或 ACT 中的一项；成绩须按官网学校代码由考试机构发送。",
+      interview:
+        "提交 Gateway Candidate Profile 后进入 Andover Portal 预约，可选校园面试、线上面试或录制回答；面试持续至1月。另需提交短视频回答。",
+      materials: [
+        "Candidate Profile、Essay Response、已评分写作样本和短视频回答",
+        "家长陈述、当前学年成绩及此前两个学年成绩",
+        "校长/升学顾问、现任英语教师、现任数学教师及个人推荐信",
+        "可选：特长推荐信、艺术/体育补充材料及其他补充文件",
+      ],
+      sourceUrl: "https://www.andover.edu/admission/apply",
+      verifiedOn: "2026-07-18",
+    },
   },
   {
     id: "exeter",
@@ -55,11 +89,13 @@ const featuredSchools: School[] = [
     type: "男女合校 · 寄宿/走读",
     founded: 1781,
     students: "1,099",
-    boarding: "892",
+    boardingRate: "81%",
+    internationalRate: "待核验",
+    courseCount: "450+",
+    campusArea: "700 英亩",
     tuition: "$71,797",
-    aid: "$29M",
     classSize: "12",
-    updated: "2026-07-15",
+    updated: "2026-07-18",
     verified: true,
     tags: ["Need-blind", "Harkness", "FS 参考 #2"],
     summary:
@@ -67,6 +103,26 @@ const featuredSchools: School[] = [
     sourceUrl: "https://exeter.edu/about/",
     sourceName: "学校官网 · About Exeter",
     referenceRank: 2,
+    application: {
+      cycle: "下一申请周期（官网将于夏季开放）",
+      deadline: "1月15日",
+      platform: "Gateway to Prep Schools + Exeter Applicant Portal",
+      international:
+        "官网明确国际生与美国本土学生采用相同申请流程，申请费均为60美元。录取后，需办理 I-20/F-1 的学生由学校自5月初起联系并启动文件流程；官网当前未列出额外英语能力考试要求。",
+      testing:
+        "申请9年级必须提交 SSAT Upper Level 或 ISEE Upper Level；申请10或11年级须提交 SSAT、ISEE、PSAT/NMSQT、SAT、PreACT 或 ACT 中的一项。成绩时效及递交方式以官网说明为准。",
+      interview:
+        "所有申请人必须面试，可选校园面谈、线上交流或按学校问题录制视频；每人仅可完成一次，须在1月15日前完成。",
+      materials: [
+        "Gateway Candidate Profile",
+        "学生文书和家长陈述（在 Exeter Applicant Portal 提交）",
+        "现任校长/升学顾问、英语教师、数学教师推荐信",
+        "由熟悉申请人的成人提交个人品格与社区影响推荐信",
+        "由原学校通过 Gateway 直接递交当前及上一学年成绩单",
+      ],
+      sourceUrl: "https://exeter.edu/admissions/apply/",
+      verifiedOn: "2026-07-18",
+    },
   },
   {
     id: "lawrenceville",
@@ -77,9 +133,11 @@ const featuredSchools: School[] = [
     type: "男女合校 · 寄宿/走读",
     founded: 1810,
     students: "待同步",
-    boarding: "待同步",
+    boardingRate: "待同步",
+    internationalRate: "待同步",
+    courseCount: "待同步",
+    campusArea: "待同步",
     tuition: "待同步",
-    aid: "待同步",
     classSize: "待同步",
     updated: "等待首次核验",
     verified: false,
@@ -98,9 +156,11 @@ const featuredSchools: School[] = [
     type: "男女合校 · 寄宿/走读",
     founded: 1890,
     students: "待同步",
-    boarding: "待同步",
+    boardingRate: "待同步",
+    internationalRate: "待同步",
+    courseCount: "待同步",
+    campusArea: "待同步",
     tuition: "待同步",
-    aid: "待同步",
     classSize: "待同步",
     updated: "等待首次核验",
     verified: false,
@@ -119,9 +179,11 @@ const featuredSchools: School[] = [
     type: "男女合校 · 寄宿/走读",
     founded: 1891,
     students: "待同步",
-    boarding: "待同步",
+    boardingRate: "待同步",
+    internationalRate: "待同步",
+    courseCount: "待同步",
+    campusArea: "待同步",
     tuition: "待同步",
-    aid: "待同步",
     classSize: "待同步",
     updated: "等待首次核验",
     verified: false,
@@ -140,9 +202,11 @@ const featuredSchools: School[] = [
     type: "男女合校 · 寄宿/走读",
     founded: 1797,
     students: "待同步",
-    boarding: "待同步",
+    boardingRate: "待同步",
+    internationalRate: "待同步",
+    courseCount: "待同步",
+    campusArea: "待同步",
     tuition: "待同步",
-    aid: "待同步",
     classSize: "待同步",
     updated: "等待首次核验",
     verified: false,
@@ -289,9 +353,11 @@ const pendingSchools: School[] = pendingSeeds.map((seed) => ({
   grades: seed.grades,
   type: `${seed.gender ?? "男女合校"} · 寄宿/走读`,
   students: "待核验",
-  boarding: "待核验",
+  boardingRate: "待核验",
+  internationalRate: "待核验",
+  courseCount: "待核验",
+  campusArea: "待核验",
   tuition: "待核验",
-  aid: "待核验",
   classSize: "待核验",
   updated: "等待官方同步",
   verified: false,
