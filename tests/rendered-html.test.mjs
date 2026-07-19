@@ -60,8 +60,13 @@ test("keeps 100-school search, filtering, selection, and tabs interactive", asyn
   assert.match(page, /国际生特别要求/);
   assert.match(page, /标准化考试/);
   assert.match(page, /面试形式与要求/);
+  assert.match(page, /学术课程与课程介绍/);
+  assert.match(page, /打开完整课程目录/);
   assert.match(schoolData, /Gateway to Prep Schools/);
   assert.match(schoolData, /TOEFL iBT/);
+  assert.match(schoolData, /ENG100A–C/);
+  assert.match(schoolData, /CSC505/);
+  assert.match(schoolData, /2026–27/);
   assert.match(page, /toggleSave/);
   assert.match(page, /schools\.length/);
   assert.equal(schoolData.match(/\{ rank:/g)?.length, 94);
