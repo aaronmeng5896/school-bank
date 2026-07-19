@@ -31,6 +31,23 @@ export type School = {
     sourceUrl: string;
     verifiedOn: string;
   };
+  academics?: {
+    catalogYear: string;
+    overview: string;
+    sourceUrl: string;
+    verifiedOn: string;
+    totalCourses: string;
+    departments: {
+      name: string;
+      description: string;
+      courses: {
+        code: string;
+        title: string;
+        level: string;
+        description: string;
+      }[];
+    }[];
+  };
 };
 
 const FINDING_SCHOOL_REFERENCE =
@@ -79,6 +96,70 @@ const featuredSchools: School[] = [
       sourceUrl: "https://www.andover.edu/admission/apply",
       verifiedOn: "2026-07-18",
     },
+    academics: {
+      catalogYear: "2026–27",
+      totalCourses: "300+",
+      verifiedOn: "2026-07-19",
+      sourceUrl: "https://www.andover.edu/files/CourseOfStudy.pdf",
+      overview:
+        "以通识教育为核心，采用三学期制。课程从基础序列延伸至 500/600 级高级选修、独立研究与跨学科项目；多数课程强调研讨、写作、实验或作品集。",
+      departments: [
+        {
+          name: "英语与写作",
+          description: "核心序列由阅读、写作逐步过渡到批判性分析，高年级可进入专题文学与创意写作。",
+          courses: [
+            { code: "ENG100A–C", title: "The Reader", level: "9年级 · 三学期核心课", description: "通过跨体裁文本训练精读、课堂讨论、批判思考与反复修改写作，逐步理解文本如何生成意义。" },
+            { code: "ENG200A–C", title: "The Writer", level: "10年级 · 三学期核心课", description: "从个人随笔、诗歌与小说写作切入，强调写作过程、同伴反馈、修订以及分析性论证。" },
+            { code: "ENG300A–C", title: "The Critical Thinker", level: "11年级 · 三学期核心课", description: "整合精读、语境研究和批评理论，分析文学中的权力、身份与社会结构，为高级选修和大学写作做准备。" },
+          ],
+        },
+        {
+          name: "历史与社会科学",
+          description: "涵盖世界史、美国史、经济学和地区研究，强调一手资料、论证写作与独立研究。",
+          courses: [
+            { code: "HSS100A–B", title: "World History", level: "9年级核心课", description: "以全球视角研究不同社会的形成、交流与权力关系，建立史料阅读和历史论证能力。" },
+            { code: "HSS300A–C", title: "The United States", level: "美国史核心序列", description: "跨三个学期研究美国政治、社会和文化发展，通过多元史料讨论国家叙事及其争议。" },
+            { code: "HSS600", title: "History Research Seminar", level: "600级 · 高级研究", description: "学生提出原创问题，完成资料搜集、史学回顾和长篇研究论文，接受研讨式同行反馈。" },
+          ],
+        },
+        {
+          name: "数学与计算机科学",
+          description: "从代数、几何和微积分延伸到高等数学、算法、人工智能与自主系统。",
+          courses: [
+            { code: "MTH650A–B", title: "Multivariable Calculus", level: "600级 · 高等数学", description: "研究多变量函数、偏导数、重积分和向量分析，面向已完成单变量微积分的学生。" },
+            { code: "CSC561", title: "Machine Learning", level: "500级 · 高级选修", description: "介绍机器学习模型、训练与评估方法，并讨论数据选择、偏差和实际应用中的限制。" },
+            { code: "CSC571", title: "Autonomous Systems", level: "500级 · 项目课程", description: "结合编程、传感器和控制逻辑构建自主系统，通过迭代测试解决真实环境中的导航与决策问题。" },
+          ],
+        },
+        {
+          name: "自然科学与研究",
+          description: "生物、化学和物理均设置实验序列，并提供面向高年级的校内研究课程。",
+          courses: [
+            { code: "BIO600A–B", title: "Independent Laboratory Research in Biology", level: "600级 · 独立实验研究", description: "在教师指导下设计生物学研究问题，完成实验、数据分析和科学表达，强调长期独立工作。" },
+            { code: "CHM610/620", title: "Organic Chemistry", level: "600级 · 大学水平", description: "围绕有机分子的结构、反应机制与合成展开，配合进阶内容和实验技术训练。" },
+            { code: "PHY530", title: "Astronomy Research", level: "500级 · 观测研究", description: "使用校内天文台望远镜、穹顶与 CCD 相机，学习天体观测、摄影测量和研究项目方法。" },
+          ],
+        },
+        {
+          name: "艺术、设计与媒介",
+          description: "课程连接创作方法、艺术史、数字制作与作品集发展，并利用校内美术馆和考古资源。",
+          courses: [
+            { code: "ART225", title: "Visual Studies", level: "9年级基础课", description: "以绘画、拼贴、摄影、影像和陶土等媒介训练视觉素养、艺术思维与表达能力。" },
+            { code: "ART301", title: "Architecture I", level: "300级 · 设计基础", description: "通过物件、家具与建筑尺度项目学习研究型设计、制图、3D 建模、激光切割和实体模型制作。" },
+            { code: "ART520", title: "Advanced Digital Art", level: "500级 · 高级工作室", description: "在数字图像、动态图形或交互媒介中深化个人创作方向，并形成可展示的高级作品集。" },
+          ],
+        },
+        {
+          name: "世界语言与文化",
+          description: "提供中文、法语、德语、日语、俄语、西班牙语、拉丁语和古希腊语的多级序列。",
+          courses: [
+            { code: "CHI540A–C", title: "Introduction to Chinese Literature", level: "500级 · 高级中文", description: "以中文阅读和讨论文学文本，在提升语言能力的同时理解作品的历史与文化语境。" },
+            { code: "FRE521–523", title: "Francophone Civilizations, Literatures, Cultures, and Cinemas", level: "500级 · 法语文化研究", description: "通过文学、电影与文化材料研究法语世界，持续训练口语、写作和跨文化分析。" },
+            { code: "SPA501", title: "Taking the Streets", level: "500级 · 西语专题", description: "研究拉丁美洲与美国的艺术和社会运动，分析公共空间、视觉文化与政治表达的关系。" },
+          ],
+        },
+      ],
+    },
   },
   {
     id: "exeter",
@@ -122,6 +203,70 @@ const featuredSchools: School[] = [
       ],
       sourceUrl: "https://exeter.edu/admissions/apply/",
       verifiedOn: "2026-07-18",
+    },
+    academics: {
+      catalogYear: "2026–27",
+      totalCourses: "450+",
+      verifiedOn: "2026-07-19",
+      sourceUrl: "https://exeter.edu/app/uploads/2026/03/PEA-COI-26-27_Web_3.2.2026.pdf",
+      overview:
+        "课程以 Harkness 圆桌讨论为核心，在广度要求之外提供大量高级专题、实验研究、跨学科项目与校外学习。学校不以 AP 课程为主体，许多课程达到或超过大学先修水平。",
+      departments: [
+        {
+          name: "英语与创意写作",
+          description: "四年英语序列持续训练阅读、讨论和写作，高年级从文学专题、戏剧到数字媒介均有选择。",
+          courses: [
+            { code: "ENG100/210/220", title: "9th-Grade English", level: "9年级核心序列", description: "通过诗歌、小说、戏剧和短篇作品建立精读、Harkness 讨论与写作基础。" },
+            { code: "ENG410/420/430", title: "11th-Grade English", level: "11年级核心序列", description: "写作由个人叙事转向思想分析，强化复杂文本阅读、证据使用和独立论点表达。" },
+            { code: "ENG534", title: "What Artifice; Whose Intelligence?", level: "高年级专题", description: "以文学与文化文本审视人工智能的想象、权力和伦理问题，讨论技术如何改变创作与人的价值。" },
+          ],
+        },
+        {
+          name: "历史与全球研究",
+          description: "强调一手资料、Harkness 讨论和研究写作，选题跨越全球地区、性别、环境与法律。",
+          courses: [
+            { code: "HIS200", title: "The World in the 20th Century", level: "200级 · 世界史", description: "围绕帝国、战争、革命、民族国家与全球化理解20世纪，并训练比较历史分析。" },
+            { code: "HIS410/420/430", title: "United States History", level: "美国史三学期序列", description: "从殖民时期延伸至当代，分别研究内战前、1861–1941及1941年至今的美国发展。" },
+            { code: "HIS587", title: "Salem Witch Trials: A Global History", level: "高年级专题", description: "以1692年塞勒姆审巫案为核心，结合全球史研究巫术、社会排斥、司法与群体恐慌。" },
+          ],
+        },
+        {
+          name: "数学与计算机科学",
+          description: "数学课程强调板书展示与共同推理，计算机课程兼顾软件构建、算法及技术社会责任。",
+          courses: [
+            { code: "MAT610/620", title: "Multivariable Calculus", level: "600级 · 高等数学", description: "研究多元微积分、向量函数和坐标变换，强调证明、几何理解与严谨表达。" },
+            { code: "CSC505", title: "Data Structures and Algorithms", level: "500级 · 高级计算机", description: "分析常用数据结构和算法的设计、正确性与效率，通过程序实现比较不同解决方案。" },
+            { code: "CSC506", title: "Mobile App Development", level: "500级 · 应用开发", description: "围绕移动端产品设计与编程完成应用项目，整合界面、数据、测试与迭代开发。" },
+          ],
+        },
+        {
+          name: "实验科学",
+          description: "学生通过观察、测量、实验与数据解释学习科学，高级课程可进入研究型实验。",
+          courses: [
+            { code: "BIO670", title: "Biology Research", level: "高级研究 · 需申请", description: "参与真实生物研究流程，学习分子生物学、显微成像或生物信息学，并完成课外实验工作。" },
+            { code: "CHE460", title: "Organic Chemistry", level: "高年级 · 有先修要求", description: "研究有机化合物结构和反应，并在实验中合成、纯化常见材料，讨论化学与可持续性的交叉。" },
+            { code: "PHY640", title: "Quantum Mechanics", level: "600级 · 高级物理", description: "在现代物理和微积分基础上研究量子理论的数学框架及其对微观世界的解释。" },
+          ],
+        },
+        {
+          name: "跨学科与创新",
+          description: "把科学、设计、人文和社会影响连接起来，以项目、原型和现实议题为主要学习方式。",
+          courses: [
+            { code: "INT455", title: "Principles of Engineering and Design", level: "跨学科项目课", description: "采用工程设计流程识别问题、快速制作原型、收集反馈并改进解决方案。" },
+            { code: "INT553", title: "Social Innovation", level: "高年级跨学科", description: "分析社会创新案例，研究社区需求并设计兼顾可行性、伦理和长期影响的方案。" },
+            { code: "INT579", title: "Bioethics", level: "高年级跨学科", description: "通过生命科学案例学习伦理原则和论证，讨论医学、研究与公共政策中的艰难选择。" },
+          ],
+        },
+        {
+          name: "艺术、音乐与语言",
+          description: "艺术课程连接传统工作室与数字媒介，音乐和现代语言提供创作、表演及文化研究路径。",
+          courses: [
+            { code: "ART409", title: "Advanced Digital Art + Design", level: "高级视觉艺术", description: "使用数字媒介深化视觉概念、设计方法和个人表达，发展系列作品与展示能力。" },
+            { code: "MUS206", title: "Musical Structure and Songwriting", level: "音乐创作", description: "通过分析歌曲结构并进行短篇创作，学习旋律、和声、节奏和作品修改。" },
+            { code: "SPA590", title: "The Hispanic World Through Its Music", level: "高级西班牙语专题", description: "通过西语世界的音乐现象研究身份、社会与政治语境，同时强化听说和文化分析。" },
+          ],
+        },
+      ],
     },
   },
   {
